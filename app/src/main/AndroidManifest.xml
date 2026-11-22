@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:name=".CanticoraApp"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Canticora">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.Canticora"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!--
+              Abre directamente los repertorios (.canticora) y las copias de seguridad (.canticora ZIP)
+              desde el gestor de archivos o al recibirlos por WhatsApp, correo u otra app.
+
+              Por qué hacen falta varios filtros: la extensión `.canticora` no está registrada en el
+              sistema, así que muchas apps la entregan con un MIME genérico y un `content://` sin
+              extensión visible. En particular:
+
+              1) **WhatsApp** (y otras apps de mensajería) entrega el documento con
+                 `application/octet-stream` y una ruta tipo
+                 `content://com.whatsapp.provider.media/…`, que NO termina en `.canticora`.
+                 Por eso ningún filtro por MIME declarado ni por sufijo de ruta puede casar: se
+                 necesita aceptar `*/*`. La discriminación se hace **al abrir**, validando el
+                 contenido del archivo (JSON de repertorio o ZIP de copia de seguridad).
+              2) Otras apps sí conservan el MIME propio o el nombre original: para ellas se
+                 mantienen los filtros específicos, que tienen prioridad a la hora de sugerir
+                 la app al usuario.
+            -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="content" />
+                <data android:scheme="file" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:mimeType="application/vnd.canticora.event+json" />
+                <data android:mimeType="application/vnd.canticora.backup+zip" />
+                <data android:mimeType="application/json" />
+                <data android:mimeType="application/zip" />
+            </intent-filter>
+
+            <!--
+              Compartir un archivo hacia Canticora («Compartir → Canticora»). El contenido llega en
+              `EXTRA_STREAM` en lugar de en el `data` del intent.
+            -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="*/*" />
+            </intent-filter>
+        </activity>
+
+        <!--
+          Permite compartir el ChordPro de un canto como archivo adjunto con apps externas
+          (WhatsApp, Telegram, correo…) sin exponer rutas absolutas ni pedir permisos de
+          almacenamiento: solo se conceden rutas temporales de lectura.
+        -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+    </application>
+
+</manifest>

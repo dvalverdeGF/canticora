@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Manifiesto del paquete MSIX de Canticora PARA LA MICROSOFT STORE (escritorio Windows).
+
+  Se empaqueta con `makeappx` sobre la imagen que genera `:desktopApp:createDistributable`
+  (app-image con runtime JVM embebido). Ver ADR-013 y packaging/msix/README.md §2.
+
+  Diferencias con `AppxManifest.xml` (el de DESARROLLO/pruebas locales):
+    · `Publisher` = identidad asignada por el Partner Center (NO `CN=LaudateDev`).
+    · `Version`   = versión real de la app (el 4.º dígito es de la Store y debe ir a 0).
+
+  IMPORTANTE
+    · Los valores de `Name` y `Publisher` son EXACTOS y sensibles a mayúsculas: deben
+      coincidir carácter a carácter con la "Identidad del producto" del Partner Center
+      (producto 9P6TNMBN6SMZ). Si no coinciden, la subida falla.
+    · El paquete puede subirse SIN firmar: la Store lo re-firma con un certificado de
+      Microsoft tras la certificación. Por eso NO se firma con `LaudateDev.pfx` aquí.
+-->
+<Package
+    xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+    xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+    xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+    IgnorableNamespaces="uap rescap">
+
+    <!-- Identidad del Partner Center (Canticora · 9P6TNMBN6SMZ). NO cambiar sin actualizar
+         también el Partner Center. -->
+    <!-- `Version="0.0.0.0"` es un MARCADOR, no un olvido: `build_msix.bat` lo sustituye por
+         la versión de `gradle.properties` (`canticora.version` + ".0"). Así el número vive en
+         un solo sitio y no puede quedarse atrás (ADR-022). El 4.º dígito lo exige la Store
+         y debe ir a 0. -->
+    <Identity
+        Name="Grafitto.Laudate"
+        Publisher="CN=F1E0C245-FAB1-4CCA-9015-1150609FDA03"
+        Version="0.0.0.0"
+        ProcessorArchitecture="x64" />
+
+    <Properties>
+        <!-- Debe coincidir EXACTAMENTE con un nombre reservado en el Partner Center.
+             La Store rechazó el nombre «Canticora — Crea tu repertorio. Interpreta tu música»:
+             la política 10.1 prohíbe que el nombre del producto incluya texto de marketing o
+             descriptivo (un lema). Solución: el nombre es la marca limpia «Canticora» y el
+             lema vive en la descripción de la ficha y en el campo Description de la app.
+             ⚠️ ANTES DE SUBIR: «Canticora» debe estar RESERVADO en el Partner Center
+             (Administrar los nombres de las aplicaciones) y coincidir carácter a carácter. -->
+        <DisplayName>Canticora</DisplayName>
+        <PublisherDisplayName>Grafitto</PublisherDisplayName>
+        <Logo>Assets\StoreLogo.png</Logo>
+    </Properties>
+
+    <Dependencies>
+        <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26100.0" />
+    </Dependencies>
+
+    <Resources>
+        <!-- La app está solo en español: un único idioma evita tener que rellenar
+             una ficha de Store en inglés (que la Store exige si el paquete lo declara). -->
+        <Resource Language="es-ES" />
+    </Resources>
+
+    <Applications>
+        <Application Id="Canticora" Executable="Canticora\Canticora.exe" EntryPoint="Windows.FullTrustApplication">
+            <uap:VisualElements
+                DisplayName="Canticora"
+                Description="Crea tu repertorio. Interpreta tu música"
+                BackgroundColor="transparent"
+                Square150x150Logo="Assets\Square150x150Logo.png"
+                Square44x44Logo="Assets\LaudateAppList.png">
+                <uap:DefaultTile
+                    Wide310x150Logo="Assets\Wide310x150Logo.png"
+                    Square310x310Logo="Assets\Square310x310Logo.png"
+                    Square71x71Logo="Assets\Square71x71Logo.png"
+                    ShortName="Canticora" />
+            </uap:VisualElements>
+
+            <!-- Asociación de ficheros `.canticora`: al abrir uno, Windows lanza el ejecutable con
+                 la ruta del fichero como argumento (la app la recoge en `main(args)`). -->
+            <Extensions>
+                <uap:Extension Category="windows.fileTypeAssociation">
+                    <uap:FileTypeAssociation Name="canticora">
+                        <uap:DisplayName>Repertorio o copia de seguridad de Canticora</uap:DisplayName>
+                        <uap:SupportedFileTypes>
+                            <uap:FileType>.canticora</uap:FileType>
+                        </uap:SupportedFileTypes>
+                    </uap:FileTypeAssociation>
+                </uap:Extension>
+            </Extensions>
+        </Application>
+    </Applications>
+
+    <Capabilities>
+        <!-- App de escritorio con acceso a disco (file pickers, apertura de .laudate). -->
+        <rescap:Capability Name="runFullTrust" />
+    </Capabilities>
+</Package>

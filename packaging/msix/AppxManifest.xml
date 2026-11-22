@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Manifiesto del paquete MSIX de Canticora (escritorio Windows).
+  Se empaqueta con `makeappx` sobre la imagen de la app que genera `:desktopApp:createDistributable`
+  (app-image con runtime JVM embebido). Ver ADR-013.
+
+  NOTA: `Publisher` debe COINCIDIR EXACTAMENTE con el CN del certificado con el que se firma.
+  Para pruebas se usa un certificado autofirmado (CN=LaudateDev); para la Store, el Publisher que
+  asigne el Partner Center.
+
+  NOTA: `Version="0.0.0.0"` es un MARCADOR, no un olvido: `build_msix.bat` lo sustituye por la
+  versión de `gradle.properties` (`canticora.version` + ".0"). Fuente única, ADR-022.
+-->
+<Package
+    xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+    xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+    xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+    IgnorableNamespaces="uap rescap">
+
+    <Identity
+        Name="Grafitto.Laudate"
+        Publisher="CN=LaudateDev"
+        Version="0.0.0.0"
+        ProcessorArchitecture="x64" />
+
+    <Properties>
+        <DisplayName>Canticora</DisplayName>
+        <PublisherDisplayName>Grafitto</PublisherDisplayName>
+        <Logo>Assets\StoreLogo.png</Logo>
+    </Properties>
+
+    <Dependencies>
+        <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26100.0" />
+    </Dependencies>
+
+    <Resources>
+        <Resource Language="es-ES" />
+        <Resource Language="en-US" />
+    </Resources>
+
+    <Applications>
+        <Application Id="Canticora" Executable="Canticora\Canticora.exe" EntryPoint="Windows.FullTrustApplication">
+            <uap:VisualElements
+                DisplayName="Canticora"
+                Description="Crea tu repertorio. Interpreta tu música"
+                BackgroundColor="transparent"
+                Square150x150Logo="Assets\Square150x150Logo.png"
+                Square44x44Logo="Assets\LaudateAppList.png">
+                <uap:DefaultTile
+                    Wide310x150Logo="Assets\Wide310x150Logo.png"
+                    Square310x310Logo="Assets\Square310x310Logo.png"
+                    Square71x71Logo="Assets\Square71x71Logo.png"
+                    ShortName="Canticora" />
+            </uap:VisualElements>
+
+            <!-- Asociación de ficheros `.canticora`: al abrir uno, Windows lanza el ejecutable con
+                 la ruta del fichero como argumento (la app la recoge en `main(args)`). -->
+            <Extensions>
+                <uap:Extension Category="windows.fileTypeAssociation">
+                    <uap:FileTypeAssociation Name="canticora">
+                        <uap:DisplayName>Repertorio o copia de seguridad de Canticora</uap:DisplayName>
+                        <uap:SupportedFileTypes>
+                            <uap:FileType>.canticora</uap:FileType>
+                        </uap:SupportedFileTypes>
+                    </uap:FileTypeAssociation>
+                </uap:Extension>
+            </Extensions>
+        </Application>
+    </Applications>
+
+    <Capabilities>
+        <!-- App de escritorio con acceso a disco (file pickers, apertura de .laudate). -->
+        <rescap:Capability Name="runFullTrust" />
+    </Capabilities>
+</Package>

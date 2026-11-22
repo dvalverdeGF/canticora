@@ -1,0 +1,43 @@
+# NormalizaciÃ³n de finales de lÃ­nea para un flujo 100 % Windows (ADR de entorno).
+#
+# Motivo: el repo se edita desde WSL sobre /mnt/c (git 2.34 con core.autocrlf=input)
+# y se compila desde Windows. Sin reglas explÃ­citas, cada herramienta decide por su
+# cuenta y el Ã¡rbol de trabajo y el Ã­ndice divergen. Este fichero tiene prioridad
+# sobre core.autocrlf, asÃ­ que el resultado es el mismo en WSL y en Windows.
+#
+# Criterio: LF en el repositorio para todo el texto (Kotlin, XML, Markdown, Gradle),
+# porque es lo que ya estÃ¡ versionado y lo que entienden JVM, Kotlin y Gradle.
+# Los ficheros que ejecuta Windows (batch y PowerShell) se materializan en CRLF.
+
+# --- Texto: LF en el Ã­ndice y en el Ã¡rbol de trabajo ---
+* text=auto eol=lf
+
+# --- Windows: el Ã¡rbol de trabajo usa CRLF, el repositorio sigue en LF ---
+*.bat   text eol=crlf
+*.cmd   text eol=crlf
+*.ps1   text eol=crlf
+
+# --- Binarios: nunca normalizar ni hacer diff de texto ---
+*.png      binary
+*.jpg      binary
+*.jpeg     binary
+*.gif      binary
+*.webp     binary
+*.ico      binary
+*.icns     binary
+*.otf      binary
+*.ttf      binary
+*.pdf      binary
+*.mscz     binary
+*.jar      binary
+*.exe      binary
+*.dll      binary
+*.so       binary
+*.cub      binary
+*.wixlib   binary
+*.pfx      binary
+*.p12      binary
+*.jks      binary
+*.keystore binary
+*.pyc      binary
+*.zip      binary

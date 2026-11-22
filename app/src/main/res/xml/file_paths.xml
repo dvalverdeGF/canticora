@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Rutas que el FileProvider puede exponer a otras apps.
+  - `exports/`: carpeta temporal de exportaciones (ChordPro, repertorios…).
+  - `attachments/`: copias privadas de los adjuntos de los cantos, para abrirlos con una app
+    externa sin exponer su ruta real.
+-->
+<paths>
+    <cache-path
+        name="exports"
+        path="exports/" />
+    <files-path
+        name="attachments"
+        path="attachments/" />
+    <!-- Copias de seguridad creadas automáticamente por la app (p. ej. antes de restaurar). -->
+    <files-path
+        name="auto_backups"
+        path="auto_backups/" />
+</paths>

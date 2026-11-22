@@ -1,0 +1,92 @@
+# Licencia del contenido musical — Laudate
+
+Este documento **NO es una licencia para el código fuente**. La licencia del
+código de Canticora (GNU GPL v3.0 only) está en el archivo [`LICENSE`](./LICENSE).
+
+---
+
+## 1. Separación entre software y contenido
+
+Laudate separa conceptualmente dos cosas:
+
+| Elemento | Qué es | Licencia |
+| :--- | :--- | :--- |
+| **Código fuente** de Canticora | La aplicación Android, el motor armónico, el parser ChordPro, la interfaz, etc. | **GPL-3.0-only** (ver `LICENSE`) |
+| **Contenido musical** | Letras, composiciones, acordes, partituras, arreglos, cifrados ChordPro y catálogos de canciones | **No cubierto por GPLv3** (ver más abajo) |
+
+El contenido musical **no está incluido automáticamente** en la licencia GPLv3
+del código. Son obras distintas y sus derechos se rigen por reglas distintas.
+
+---
+
+## 2. El contenido musical NO está bajo GPLv3
+
+La licencia GPLv3 del software de Canticora **no se extiende** a las letras,
+composiciones, partituras, arreglos, cifrados ni catálogos de canciones que se
+distribuyan junto con la aplicación o por separado (por ejemplo, el bundle del
+el cancionero que el usuario importe).
+
+Esto significa, en particular, que:
+
+- la GPLv3 no concede ningún derecho de uso, copia, modificación ni
+  redistribución sobre el contenido musical;
+- los derechos sobre cada canción, letra, composición, arreglo o partitura
+  dependen de **la titularidad o la licencia aplicable a cada obra concreta**;
+- el hecho de que una canción viaje empaquetada junto al software no cambia su
+  régimen de derechos ni lo equipara a software libre.
+
+---
+
+## 3. Titularidad
+
+- **Laudate no afirma ser titular** de los derechos de autor de las letras,
+  composiciones, partituras o arreglos de terceros.
+- Cada obra conserva **sus propios derechos**, que corresponden a sus respectivos
+  autores, compositores, editores o titulares.
+- La **condición legal de cada canción** (obra de dominio público, obra con
+  derechos vigentes, obra con licencia específica, etc.) **debe determinarse y
+  documentarse de forma individual**, y es responsabilidad de quien distribuye
+  o utiliza ese contenido.
+- El proyecto **no asigna ni presume** ninguna titularidad sobre el contenido
+  musical que no esté expresamente documentada.
+
+---
+
+## 4. Qué incluye esta política
+
+Queda sujeto a este documento, entre otros:
+
+- las canciones que se distribuyan junto con Laudate o por separado (p. ej. el catálogo del cancionero);
+- las letras y los acordes asociados a cada canto;
+- los cifrados y archivos en formato ChordPro;
+- las partituras, arreglos y, en su caso, notación MusicXML;
+- los **catálogos y bases de datos de canciones** distribuidos con Laudate;
+- cualquier otra semilla, lista o recopilación de contenido musical.
+
+> **Ubicación del contenido musical:** el cancionero no forma parte de este
+> repositorio ni del binario publicado. Quien tenga derecho a usarlo lo
+> **importa** desde la pantalla «Importar» de Canticora.
+
+---
+
+## 5. Implicación para el software GPL
+
+Usar, estudiar, modificar o redistribuir el **código** de Canticora bajo GPLv3
+**no otorga ningún derecho** sobre el contenido musical. Del mismo modo, disponer
+del contenido musical no concede derechos sobre el código, salvo los que otorgue
+su propia licencia.
+
+Si redistribuyes Laudate o una versión derivada, debes:
+
+1. cumplir la GPLv3 respecto del **código**;
+2. gestionar por separado los derechos del **contenido musical** que decidas
+   incluir, sustituir o distribuir.
+
+---
+
+## 6. Aviso
+
+Este documento describe la **política de licencias** del proyecto. **No es
+asesoramiento jurídico** y no resuelve por sí mismo la situación de derechos de
+ninguna obra concreta. La determinación de la titularidad y del régimen legal de
+cada canción corresponde a quien distribuya o utilice dicho contenido.

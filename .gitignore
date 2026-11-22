@@ -1,0 +1,68 @@
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+
+# Configuración local del IDE: rutas de JDK de la máquina y credenciales de
+# extensiones (p. ej. `ollama.headers`). No es configuración del proyecto.
+.vscode/
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# Artefactos de build en CUALQUIER módulo (core/*, spike/*, ...): el `build/`
+# raíz ya estaba ignorado, pero los submódulos necesitan el patrón recursivo.
+**/build/
+**/.gradle/
+**/.kotlin/
+
+# PDFs de referencia aportados para revisar la maquetacion (no son artefactos del repo)
+docs/*.pdf
+
+# Credenciales de firma de release: NUNCA subir al repositorio
+keystore.properties
+*.jks
+*.keystore
+*.p12
+
+# Bytecode de Python (scripts de store/)
+__pycache__/
+*.pyc
+
+# WiX Toolset portable local (solo para empaquetar el MSI/MSIX; no versionar)
+.wix/
+.sdkbt/
+
+# Certificado de desarrollo del MSIX (clave privada; se regenera con build_msix.bat)
+packaging/msix/*.pfx
+packaging/msix/install.log
+
+# Capturas y paquetes temporales de prueba de los iconos MSIX
+packaging/msix/*-zoom.png
+packaging/msix/laudate-taskbar*.png
+packaging/msix/*.msix
+
+# Informe del Windows App Certification Kit (WACK)
+packaging/msix/wack-report.xml
+
+
+# Herramientas Android: capturas crudas, logs, volcados de UI e intermedios de
+# conversion (los scripts .ps1/.sh/.bat SI se versionan; sus resultados, no).
+tools/android/shots/
+tools/android/*.log
+tools/android/*.txt
+tools/android/ui*.xml
+tools/android/*.png
+
+# Catálogo de la web: se genera en cada compilación a partir de webApp/demo (semillita
+# pública de ejemplo). El cancionero personal NO se versiona ni se publica; solo se empaqueta
+# en compilaciones locales con -Pcanticora.catalog=<fichero>.
+webApp/src/commonMain/composeResources/files/catalog.json
